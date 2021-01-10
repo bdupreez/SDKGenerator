@@ -4,8 +4,8 @@ extends Node2D
 func reset_ui():
     $ui/lbl_result/value.clear()
     $ui/lbl_response_code/value.clear()
-    $ui/lbl_headers/value.clear()
-    $ui/lbl_json_parse_result/value.clear()
+    $ui/lbl_headers/value.text = ""
+    $ui/lbl_json_parse_result/value.text = ""
     
 
 func _request_completed(result: int, response_code: int, headers, json_parse_result: JSONParseResult):
@@ -52,3 +52,14 @@ func _on_btn_login_pressed():
 
     reset_ui()
     PlayFab.Client.LoginWithPlayFab(dict_request)
+
+
+func _on_btn_event_pressed():
+
+    var dict_request = {
+        "Events": [
+            {"EventNamespace": "custom.test", "Name": "TESTEVENT", "Payload": {"ABCDEFGH": "01234567"}}
+        ]
+    }
+
+    PlayFab.Events.WriteEvents(dict_request)
