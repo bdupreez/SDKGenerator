@@ -79,26 +79,31 @@ function getResultActions(tabbing, apiCall, api) {
 
     if (apiCall.result === "LoginResult") {
         str_result = "";
+        str_result += tabbing + "PlayFabHTTPRequest.reset_connection()\n"
         str_result += tabbing + "PlayFabHTTPRequest.connect(\"request_completed\", PlayFabHTTPRequest, \"_evt_LoginResult\")"
         return str_result;
     }
     else if (apiCall.result === "RegisterPlayFabUserResult") {
         str_result = "";
+        str_result += tabbing + "PlayFabHTTPRequest.reset_connection()\n"
         str_result += tabbing + "PlayFabHTTPRequest.connect(\"request_completed\", PlayFabHTTPRequest, \"_evt_RegisterPlayFabUserResult\")"
         return str_result;
     }
     else if (apiCall.result === "AttributeInstallResult") {
         str_result = "";
+        str_result += tabbing + "PlayFabHTTPRequest.reset_connection()\n"
         str_result += tabbing + "PlayFabHTTPRequest.connect(\"request_completed\", PlayFabHTTPRequest, \"_evt_AttributeInstallResult\")"
         return str_result;
     }
     else if (apiCall.result === "GetEntityTokenResponse") {
         str_result = "";
+        str_result += tabbing + "PlayFabHTTPRequest.reset_connection()\n"
         str_result += tabbing + "PlayFabHTTPRequest.connect(\"request_completed\", PlayFabHTTPRequest, \"_evt_GetEntityTokenResponse\")"
         return str_result;
     }
     else {
         str_result = "";
+        str_result += tabbing + "PlayFabHTTPRequest.reset_connection()\n"
         str_result += tabbing + "PlayFabHTTPRequest.connect(\"request_completed\", PlayFabHTTPRequest, \"_evt_RequestCompleted\")"
         return str_result;
     }
