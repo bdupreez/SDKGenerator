@@ -1,0 +1,4 @@
+extends Node
+
+<% for (var a = 0; a < apis.length; a++) { var api = apis[a]; %>
+const <%- api.name %> = preload("res://PlayFabSDK/PlayFab<%- api.name %>API.gd")<% } %>
