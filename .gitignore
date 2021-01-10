@@ -17,6 +17,7 @@
 # Various editor/tool temporary folders
 .project
 .classpath
+.vscode
 *.suo
 *.user
 *.dat
