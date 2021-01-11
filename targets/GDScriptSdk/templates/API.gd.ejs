@@ -12,12 +12,12 @@ static func IsClientLoggedIn():
     return bool(PlayFabSettings._internalSettings.ClientSessionTicket)
 <% } %>
 <% for(var i in api.calls) { var apiCall=api.calls[i]; %>
-static func <%- apiCall.name %>(dict_request, custom_data = null, dict_header_extra = {}):
+static func <%- apiCall.name %>(dict_request, user_callback = null, dict_header_extra = {}):
 
-    PlayFab._http_cli.request_append(
+    return PlayFab._http_cli.request_append(
         "<%- apiCall.url %>",
         dict_request,
-        custom_data,
+        user_callback,
         dict_header_extra,
         <%- getRequestActions("    ", apiCall) %>,
         <%- getResultActions("    ", apiCall, api) %>

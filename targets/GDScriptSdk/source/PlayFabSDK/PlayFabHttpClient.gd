@@ -29,7 +29,7 @@ class CRequest:
     var url: String
     var dict_request: Dictionary
     var auth_param: CAuthParam
-    var custom_data = null
+    var user_callback = null
     var list_header = []
     var list_prologue_work = []
     var list_epilogue_work = []
@@ -93,7 +93,7 @@ func pro_use_auth(dict_request: Dictionary):
     if PlayFabSettings._internalSettings.EntityToken:
         return CAuthParam.new(
             "X-EntityToken",
-            PlayFabSettings._internalSettings.EntityToken)
+            PlayFabSettings._internalSettings.EntityToken["EntityToken"])
     elif PlayFabSettings._internalSettings.ClientSessionTicket:
         return CAuthParam.new(
             "X-Authorization",
@@ -133,7 +133,7 @@ func epi_upd_entity_token(json_result):
     var playFabResult = json_result.result["data"]
 
     if K in playFabResult:
-        PlayFabSettings._internalSettings.EntityToken = playFabResult[K][K]
+        PlayFabSettings._internalSettings.EntityToken = playFabResult[K]
 
 
 func epi_upd_session_ticket(json_result):
@@ -182,7 +182,7 @@ func build_host():
 func request_append(
     url_path: String,
     dict_request: Dictionary,
-    custom_data = null,
+    user_callback = null,
     dict_header_extra = {},
     list_prologue_work = [],
     list_epilogue_work = []
@@ -236,7 +236,7 @@ func request_append(
     o.host = host
     o.url = url_path
     o.dict_request = dict_request
-    o.custom_data = custom_data
+    o.user_callback = user_callback
     o.list_header = list_header
     o.list_prologue_work = list_prologue_work
     o.list_epilogue_work = list_epilogue_work
@@ -263,13 +263,13 @@ func dispatch(o_request: CRequest):
                 PlayFab.E_EPI.UPD_SESSION_TICKET:
                     epi_upd_session_ticket(parse_result)
 
-    PlayFab.emit_signal(
-        "PlayFabResult",
-        o_request.h_request,
-        o_request.o_result.response_code,
-        o_request.o_result.dict_header,
-        parse_result
-    )
+    if o_request.user_callback != null:
+        o_request.user_callback.call_func(
+            o_request.h_request,
+            o_request.o_result.response_code,
+            o_request.o_result.dict_header,
+            parse_result
+        )
 
     return null
 
