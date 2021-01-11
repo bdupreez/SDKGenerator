@@ -1,4 +1,38 @@
 extends Node
 
+
+# -------------------------------------------------------------------- enum(s)
+enum E_PRO {
+    CHK_SESSION_TICKET,
+    CHK_ENTITY_TOKEN,
+    CHK_SECRET_KEY,
+    USE_TITLE_ID,
+    USE_AUTH
+}
+
+enum E_EPI {
+    UPD_SESSION_TICKET,
+    UPD_ENTITY_TOKEN,
+    UPD_ATTRIBUTE,
+    REQ_MULTI_STEP_CLIENT_LOGIN
+}
+
+
+# ------------------------------------------------------------------- const(s)
 <% for (var a = 0; a < apis.length; a++) { var api = apis[a]; %>
-const <%- api.name %> = preload("res://PlayFabSDK/PlayFab<%- api.name %>API.gd")<% } %>
+const <%- api.name %> = preload("res://PlayFabSDK/PlayFabAPI_<%- api.name %>.gd")<% } %>
+
+
+# --------------------------------------------------------------------- var(s)
+var _http_cli = null
+
+
+# ------------------------------------------------------------------ signal(s)
+signal PlayFabResult(h_request, response_code, dict_header, json_parse_result)
+
+
+func _ready():
+    _http_cli = load("res://PlayFabSDK/PlayFabHttpClient.gd").new()
+
+func _process(delta):
+    _http_cli.update(delta)
