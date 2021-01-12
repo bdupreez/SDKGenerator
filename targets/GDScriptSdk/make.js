@@ -18,16 +18,16 @@ function getRequestActions(tabbing, apiCall) {
         return "[PlayFab.E_PRO.USE_TITLE_ID]";
     }
     if (apiCall.auth === "EntityToken") {
-        return "[PlayFab.E_PRO.CHK_ENTITY_TOKEN, PlayFab.E_PRO.USE_AUTH]";
+        return "[PlayFab.E_PRO.CHK_ENTITY_TOKEN, PlayFab.E_PRO.USE_AUTH_ENTITY_TOKEN]";
     }
     if (apiCall.auth === "SessionTicket") {
-        return "[PlayFab.E_PRO.CHK_SESSION_TICKET, PlayFab.E_PRO.USE_AUTH]";
+        return "[PlayFab.E_PRO.CHK_SESSION_TICKET, PlayFab.E_PRO.USE_AUTH_AUTHORIZATION]";
     }
     if (apiCall.auth === "SecretKey") {
-        return "[PlayFab.E_PRO.CHK_SECRET_KEY, PlayFab.E_PRO.USE_AUTH]";
+        return "[PlayFab.E_PRO.CHK_SECRET_KEY, PlayFab.E_PRO.USE_AUTH_SECRET_KEY]";
     }
     if (apiCall.url === "/Authentication/GetEntityToken") {
-        return "[PlayFab.E_PRO.USE_AUTH]"
+        return "[PlayFab.E_PRO.CHK_ENTITY_TOKEN, PlayFab.E_PRO.USE_AUTH_ENTITY_TOKEN]";
     }
 
     return "[]";
