@@ -13,7 +13,7 @@ function getVerticalNameDefault() {
 }
 
 
-function getRequestActions(tabbing, apiCall) {
+function getRequestActions(apiCall) {
     if (apiCall.result === "LoginResult" || apiCall.request === "RegisterPlayFabUserRequest") {
         return "[PlayFab.E_PRO.USE_TITLE_ID]";
     }
@@ -34,7 +34,7 @@ function getRequestActions(tabbing, apiCall) {
 }
 
 
-function getResultActions(tabbing, apiCall, api) {
+function getResultActions(apiCall, api) {
 
     if (apiCall.result === "LoginResult") {
         return "[PlayFab.E_EPI.UPD_SESSION_TICKET, PlayFab.E_EPI.UPD_ENTITY_TOKEN, PlayFab.E_EPI.REQ_MULTI_STEP_CLIENT_LOGIN]";
@@ -53,6 +53,22 @@ function getResultActions(tabbing, apiCall, api) {
 }
 
 
+function generateApiSummary(tabbing, apiElement, summaryParam, extraLines) {
+    var lines = generateApiSummaryLines(apiElement, summaryParam, extraLines);
+    var tabbedLineComment = tabbing + "\"\"\"";
+
+    var output;
+    if (lines.length === 1) {
+        output = tabbing + lines.join("\n" + tabbing) + "\n" + tabbedLineComment;
+    } else if (lines.length > 0) {
+        output = tabbing + lines.join("\n" + tabbing) + "\n" + tabbedLineComment;
+    } else {
+        output = "";
+    }
+    return tabbedLineComment + "\n" + output;
+}
+
+
 exports.makeCombinedAPI = function (apis, sourceDir, apiOutputDir) {
     var locals = {
         apis: apis,
@@ -68,6 +84,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, apiOutputDir) {
 
     for (var i = 0; i < apis.length; i++) {
         // console.log("API >>> " + apis[i].url + " " + apis[i].name);
+
         for (var j = 0; j < apis[i].calls.length; j++) {
             // console.log("    CALL >>> " + apis[i].calls[j].url + " " + apis[i].calls[j].name);
 
@@ -75,6 +92,7 @@ exports.makeCombinedAPI = function (apis, sourceDir, apiOutputDir) {
                 api: apis[i],
                 getRequestActions: getRequestActions,
                 getResultActions: getResultActions,
+                generateApiSummary: generateApiSummary,
                 hasClientOptions: getAuthMechanisms([apis[i]]).includes("SessionTicket")
             }
 
