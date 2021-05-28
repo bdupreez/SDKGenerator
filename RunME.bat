@@ -1,0 +1,1 @@
+node generate.js GDScriptSdk=../PlayFab_GDScriptSdk -apiSpecPath ../API_Specs
